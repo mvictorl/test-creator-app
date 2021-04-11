@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
+import { TextField } from '@material-ui/core'
 
-const CommonInput = () => {
+const CommonInput = ({ label }) => {
   const [ inputValue, setInputValue ] = useState('')
   return (
-    <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={e => setInputValue(e.target.value)}
-        onKeyDown={null}
-      />
-    </div>
+    <TextField
+      label={ label }
+      fullWidth
+      value={ inputValue }
+      onChange={ e => setInputValue(e.target.value) }
+    />
   )
 }
 
