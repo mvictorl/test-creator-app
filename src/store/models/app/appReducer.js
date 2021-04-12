@@ -1,8 +1,9 @@
-import { TOGGLE_TEST_PROGRESS, SWITCH_LOADING } from './appActions'
+import { TOGGLE_TEST_PROGRESS, SWITCH_LOADING, TOGGLE_MENU } from './appActions'
 
 const initialState = {
   isTestInProgress: false,
-  loading: false
+  loading: false,
+  isMenuOpen: false
 }
 
 function appReducer(state = initialState, action) {
@@ -17,6 +18,11 @@ function appReducer(state = initialState, action) {
         ...state,
         loading: action.payload
       }
+      case TOGGLE_MENU:
+        return {
+          ...state,
+          isMenuOpen: !state.isMenuOpen
+        }
     default:
       return state
   }
