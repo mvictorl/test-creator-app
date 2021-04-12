@@ -1,4 +1,6 @@
 import { connect } from 'react-redux'
+import { Route, BrowserRouter, Link, Switch } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import clsx from 'clsx'
 import { toggleMenu } from './store/models/app/appActions'
 import './App.scss'
@@ -28,9 +30,11 @@ import {
 	Info
 } from '@material-ui/icons'
 
-import CommonInput from './components/CommonInput/CommonInput'
+import Home from './components/Home/Home'
+import CaptionTestInput from './components/CommonInput/CommonInput'
 
 const drawerWidth = 240
+const history = createBrowserHistory()
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -139,54 +143,70 @@ function App({ isMenuOpen, toggleMenu }) {
 					<Button color="inherit">Login</Button>
 				</Toolbar>
 			</AppBar>
-			<Drawer
-				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: isMenuOpen,
-					[classes.drawerClose]: !isMenuOpen
-				})}
-				classes={{
-					paper: clsx({
+			<BrowserRouter history={history}>
+				<Drawer
+					className={clsx(classes.drawer, {
 						[classes.drawerOpen]: isMenuOpen,
 						[classes.drawerClose]: !isMenuOpen
-					})
-				}}
-				variant="permanent"
-			>
-				<div className={classes.drawerHeader}>
-					<IconButton onClick={toggleMenu}>
-						{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
-					</IconButton>
-				</div>
-				<Divider />
-				<List>
-					<ListItem button key="openMenuItem">
-						<ListItemIcon>
-							<FolderOpen />
-						</ListItemIcon>
-						<ListItemText primary="Open" />
-					</ListItem>
-					<ListItem button key="addMenuItem">
-						<ListItemIcon>
-							<AddBox />
-						</ListItemIcon>
-						<ListItemText primary="Create" />
-					</ListItem>
-				</List>
-				<Divider />
-				<List>
-					<ListItem button key="aboutMenuItem">
-						<ListItemIcon>
-							<Info />
-						</ListItemIcon>
-						<ListItemText primary="About" />
-					</ListItem>
-				</List>
-			</Drawer>
-			<Box marginTop={12} width={1}>
+					})}
+					classes={{
+						paper: clsx({
+							[classes.drawerOpen]: isMenuOpen,
+							[classes.drawerClose]: !isMenuOpen
+						})
+					}}
+					variant="permanent"
+				>
+					<div className={classes.drawerHeader}>
+						<IconButton onClick={toggleMenu}>
+							{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
+						</IconButton>
+					</div>
+					<Divider />
+					<List>
+						<ListItem button component={Link} to="/" key="openMenuItem">
+							<ListItemIcon>
+								<FolderOpen />
+							</ListItemIcon>
+							<ListItemText primary="Open" />
+						</ListItem>
+						<ListItem button component={Link} to="/create" key="addMenuItem">
+							<ListItemIcon>
+								<AddBox />
+							</ListItemIcon>
+							<ListItemText primary="Create" />
+						</ListItem>
+					</List>
+					<Divider />
+					<List>
+						<ListItem button key="aboutMenuItem">
+							<ListItemIcon>
+								<Info />
+							</ListItemIcon>
+							<ListItemText primary="About" />
+						</ListItem>
+					</List>
+				</Drawer>
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route path="/create">
+						<Box marginTop={12} width={1}>
+							<Container>
+								<CaptionTestInput label="Название теста" />
+							</Container>
+						</Box>
+					</Route>
+				</Switch>
+				{/* <Route exact path="/" component={Home} />
+				<Route path="/create" component={CaptionTestInput} /> */}
+			</BrowserRouter>
+			{/* <Box marginTop={12} width={1}>
 				<Container>
-					<CommonInput label="Название теста" />
+					<CaptionTestInput label="Название теста" />
 				</Container>
-			</Box>
+			</Box> */}
 		</div>
 	)
 }
